@@ -1,0 +1,10 @@
+# Git ignore
+node_modules
+dist
+.vite
+.DS_Store
+coverage
+playwright-report
+
+test-results
+*.log
