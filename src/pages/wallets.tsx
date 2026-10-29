@@ -1,4 +1,4 @@
-export function WalletsPage() {
+export function Wallets() {
   return (
     <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
       <span className="mb-3 inline-flex rounded-full border border-pink-500/40 bg-pink-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-pink-300">

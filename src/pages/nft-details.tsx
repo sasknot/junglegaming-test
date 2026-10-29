@@ -1,6 +1,6 @@
 import { useParams } from '@tanstack/react-router';
 
-export function NftDetailsPage() {
+export function NftDetails() {
   const params = useParams({ strict: false });
 
   return (

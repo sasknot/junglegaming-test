@@ -1,13 +1,13 @@
 import { Link, Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
-import { HomePage } from './pages/HomePage';
-import { NftDetailsPage } from './pages/NftDetailsPage';
-import { CartPage } from './pages/CartPage';
-import { CheckoutPage } from './pages/CheckoutPage';
-import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { WalletsPage } from './pages/WalletsPage';
+import { Home } from './pages/home';
+import { NftDetails } from './pages/nft-details';
+import { Cart } from './pages/cart';
+import { Checkout } from './pages/checkout';
+import { OrderConfirmation } from './pages/order-confirmation';
+import { Login } from './pages/login';
+import { Register } from './pages/register';
+import { Profile } from './pages/profile';
+import { Wallets } from './pages/wallets';
 
 function RootLayout() {
   const links = [
@@ -60,55 +60,55 @@ const rootRoute = createRootRoute({
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: HomePage,
+  component: Home,
 });
 
 const nftDetailRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/nfts/$nftId',
-  component: NftDetailsPage,
+  component: NftDetails,
 });
 
 const cartRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/cart',
-  component: CartPage,
+  component: Cart,
 });
 
 const checkoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/checkout',
-  component: CheckoutPage,
+  component: Checkout,
 });
 
 const confirmationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/order-confirmation',
-  component: OrderConfirmationPage,
+  component: OrderConfirmation,
 });
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/login',
-  component: LoginPage,
+  component: Login,
 });
 
 const registerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/register',
-  component: RegisterPage,
+  component: Register,
 });
 
 const profileRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/profile',
-  component: ProfilePage,
+  component: Profile,
 });
 
 const walletsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/wallets',
-  component: WalletsPage,
+  component: Wallets,
 });
 
 const notFoundRoute = createRoute({

@@ -1,4 +1,4 @@
-export function RegisterPage() {
+export function Register() {
   return (
     <section className="mx-auto max-w-xl rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
       <span className="mb-3 inline-flex rounded-full border border-violet-500/40 bg-violet-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-violet-300">
