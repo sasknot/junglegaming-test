@@ -1,33 +1,20 @@
+import { Link } from '@tanstack/react-router';
+
 export function Register() {
   return (
-    <section className="mx-auto max-w-xl rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
-      <span className="mb-3 inline-flex rounded-full border border-violet-500/40 bg-violet-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-violet-300">
-        Placeholder
-      </span>
-      <h1 className="text-3xl font-bold text-white">Cadastro</h1>
-      <form className="mt-6 space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="firstName" className="mb-2 block text-sm font-medium text-slate-200">Nome</label>
-            <input id="firstName" className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-500" placeholder="Seu nome" />
-          </div>
-          <div>
-            <label htmlFor="lastName" className="mb-2 block text-sm font-medium text-slate-200">Sobrenome</label>
-            <input id="lastName" className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-500" placeholder="Seu sobrenome" />
-          </div>
-        </div>
-        <div>
-          <label htmlFor="registerEmail" className="mb-2 block text-sm font-medium text-slate-200">E-mail</label>
-          <input id="registerEmail" type="email" className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-500" placeholder="colecionador@email.com" />
-        </div>
-        <div>
-          <label htmlFor="registerPassword" className="mb-2 block text-sm font-medium text-slate-200">Senha</label>
-          <input id="registerPassword" type="password" className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-500" placeholder="Crie uma senha" />
-        </div>
-        <button type="button" className="w-full rounded-full bg-violet-500 px-4 py-3 font-medium text-white transition hover:bg-violet-400">
-          Criar conta
-        </button>
-      </form>
-    </section>
+    <div className="auth-page auth-page--register">
+      <div className="auth-art auth-art--register"><img src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?auto=format&fit=crop&w=1200&q=90" alt="Composição de arte digital colorida" /><div className="auth-art__copy"><span>UM LUGAR PARA O EXTRAORDINÁRIO</span><p>Seu próximo capítulo começa com uma escolha.</p><small>Crie sua coleção. Guarde o que importa.</small></div></div>
+      <section className="auth-panel">
+        <p className="eyebrow">Faça parte da comunidade</p><h1>Crie sua conta</h1><p className="auth-subtitle">Seu espaço para descobrir, colecionar e acompanhar novos artistas.</p>
+        <form className="auth-form">
+          <div className="form-grid"><label className="form-field">Nome<input autoComplete="given-name" placeholder="Seu nome" required /></label><label className="form-field">Sobrenome<input autoComplete="family-name" placeholder="Seu sobrenome" required /></label></div>
+          <label className="form-field">E-mail<input type="email" autoComplete="email" placeholder="colecionador@email.com" required /></label>
+          <label className="form-field">Senha<input type="password" autoComplete="new-password" placeholder="Mínimo de 8 caracteres" minLength={8} required /></label>
+          <label className="terms-check"><input type="checkbox" required /><span>Li e aceito os <a href="#terms">termos de uso</a> e a política de privacidade.</span></label>
+          <button type="submit" className="button button--dark button--full">Criar minha conta</button>
+        </form>
+        <p className="auth-switch">Já faz parte da GreenMint? <Link to="/login">Entrar</Link></p>
+      </section>
+    </div>
   );
 }

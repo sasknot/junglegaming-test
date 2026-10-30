@@ -1,23 +1,21 @@
+import { Link } from '@tanstack/react-router';
+
 export function Login() {
   return (
-    <section className="mx-auto max-w-xl rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
-      <span className="mb-3 inline-flex rounded-full border border-cyan-500/40 bg-cyan-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-cyan-300">
-        Placeholder
-      </span>
-      <h1 className="text-3xl font-bold text-white">Login</h1>
-      <form className="mt-6 space-y-4">
-        <div>
-          <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-200">E-mail</label>
-          <input id="email" type="email" className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-500" placeholder="colecionador@email.com" />
-        </div>
-        <div>
-          <label htmlFor="password" className="mb-2 block text-sm font-medium text-slate-200">Senha</label>
-          <input id="password" type="password" className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-500" placeholder="••••••••" />
-        </div>
-        <button type="button" className="w-full rounded-full bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">
-          Entrar
-        </button>
-      </form>
-    </section>
+    <div className="auth-page">
+      <div className="auth-art auth-art--login"><img src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=90" alt="Arte digital abstrata em tons de verde" /><div className="auth-art__copy"><span>GREENMINT COLLECTIVE</span><p>Arte que atravessa fronteiras.</p><small>Uma nova perspectiva, a cada coleção.</small></div></div>
+      <section className="auth-panel">
+        <p className="eyebrow">Bem-vindo de volta</p><h1>Entre na sua conta</h1><p className="auth-subtitle">Continue sua jornada pelo universo da arte digital.</p>
+        <form className="auth-form">
+          <label className="form-field" htmlFor="email">E-mail<input id="email" type="email" autoComplete="email" placeholder="colecionador@email.com" required /></label>
+          <label className="form-field" htmlFor="password">Senha<input id="password" type="password" autoComplete="current-password" placeholder="Sua senha" required /></label>
+          <div className="auth-form__meta"><label className="terms-check"><input type="checkbox" /><span>Manter conectado</span></label><a href="#reset">Esqueceu a senha?</a></div>
+          <button type="submit" className="button button--dark button--full">Entrar na GreenMint</button>
+        </form>
+        <div className="auth-divider"><span>ou continue com</span></div>
+        <button type="button" className="button button--outline button--full social-button"><span aria-hidden="true">G</span> Google</button>
+        <p className="auth-switch">Ainda não tem uma conta? <Link to="/register">Criar conta</Link></p>
+      </section>
+    </div>
   );
 }

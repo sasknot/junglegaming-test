@@ -10,45 +10,47 @@ import { Profile } from './pages/profile';
 import { Wallets } from './pages/wallets';
 
 function RootLayout() {
-  const links = [
-    { label: 'Início', to: '/' },
-    { label: 'Detalhes', to: '/nfts/metal-ape-001' },
-    { label: 'Carrinho', to: '/cart' },
-    { label: 'Pagamento', to: '/checkout' },
-    { label: 'Confirmação', to: '/order-confirmation' },
-    { label: 'Login', to: '/login' },
-    { label: 'Cadastro', to: '/register' },
-    { label: 'Perfil', to: '/profile' },
-    { label: 'Carteiras', to: '/wallets' },
-  ];
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <Link to="/" className="text-xl font-bold text-white">
-            Jungle Gaming
+    <div className="app-frame">
+      <header className="site-header">
+        <div className="site-header__inner">
+          <Link to="/" className="brand" aria-label="GreenMint, início">
+            <span className="brand__mark" aria-hidden="true">G</span>
+            <span>green<span className="brand__accent">mint</span></span>
           </Link>
-          <nav aria-label="Navegação principal" className="hidden flex-wrap items-center gap-3 md:flex">
-            {links.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="rounded-full border border-slate-700 px-3 py-1.5 text-sm text-slate-200 transition hover:border-cyan-400 hover:text-cyan-300"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav aria-label="Navegação principal" className="main-nav">
+            <Link to="/" className="main-nav__link">Início</Link>
+            <a href="/#market" className="main-nav__link">Coleções</a>
+            <a href="/#journal" className="main-nav__link">Diário</a>
           </nav>
-          <button className="rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-cyan-400">
-            Conectar carteira
-          </button>
+          <details className="mobile-menu">
+            <summary aria-label="Abrir menu de navegação">☰</summary>
+            <nav aria-label="Navegação mobile">
+              <Link to="/">Início</Link><Link to="/nfts/emerald-ape-042">Detalhes do NFT</Link><Link to="/cart">Carrinho</Link><Link to="/checkout">Pagamento</Link><Link to="/order-confirmation">Pedidos</Link><Link to="/profile">Perfil</Link><Link to="/wallets">Carteiras</Link><Link to="/login">Entrar</Link><Link to="/register">Criar conta</Link>
+            </nav>
+          </details>
+          <div className="header-actions">
+            <Link to="/cart" className="icon-link" aria-label="Abrir carrinho"><span aria-hidden="true">▱</span><span className="header-cart-count">3</span></Link>
+            <Link to="/profile" className="avatar-link" aria-label="Abrir perfil">AC</Link>
+            <Link to="/wallets" className="button button--dark header-wallet">Conectar carteira</Link>
+          </div>
         </div>
       </header>
-
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="site-main">
         <Outlet />
       </main>
+      <footer className="site-footer">
+        <div className="site-footer__inner">
+          <div>
+            <Link to="/" className="brand brand--footer"><span className="brand__mark" aria-hidden="true">G</span><span>green<span className="brand__accent">mint</span></span></Link>
+            <p className="footer-note">Arte digital para um mundo sem fronteiras.</p>
+          </div>
+          <nav aria-label="Links da conta" className="footer-links">
+            <Link to="/login">Entrar</Link><Link to="/register">Criar conta</Link><Link to="/profile">Meu perfil</Link><Link to="/wallets">Carteiras</Link>
+          </nav>
+          <span className="footer-copy">© 2025 GreenMint</span>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -115,16 +117,11 @@ const notFoundRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '*',
   component: () => (
-    <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-10 text-center shadow-glow">
-      <p className="mb-2 text-sm uppercase tracking-[0.25em] text-cyan-400">404</p>
-      <h1 className="text-3xl font-semibold text-white">Página não encontrada</h1>
-      <p className="mt-4 text-slate-300">A rota solicitada ainda não foi implementada no bootstrap.</p>
-      <Link
-        to="/"
-        className="mt-6 inline-flex rounded-full bg-cyan-500 px-5 py-2.5 font-medium text-slate-950 transition hover:bg-cyan-400"
-      >
-        Voltar para o início
-      </Link>
+    <section className="empty-state">
+      <p className="eyebrow">404 · fora de rota</p>
+      <h1>Página não encontrada</h1>
+      <p>Este endereço não existe no marketplace.</p>
+      <Link to="/" className="button button--dark">Voltar para o início</Link>
     </section>
   ),
 });

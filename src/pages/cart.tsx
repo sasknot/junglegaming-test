@@ -1,43 +1,46 @@
-export function Cart() {
-  return (
-    <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
-      <span className="mb-3 inline-flex rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-amber-300">
-        Placeholder
-      </span>
-      <h1 className="text-3xl font-bold text-white sm:text-4xl">Carrinho de NFTs</h1>
-      <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-4">
-          {[1, 2].map((item) => (
-            <div key={item} className="flex items-center gap-4 rounded-2xl border border-slate-700 bg-slate-950/60 p-4">
-              <div className="h-20 w-20 rounded-2xl border border-slate-600 bg-slate-900" />
-              <div className="flex-1">
-                <p className="text-lg font-semibold text-white">NFT {item}</p>
-                <p className="text-sm text-slate-400">Quantidade e remoção</p>
-              </div>
-              <div className="text-right">
-                <p className="text-lg font-semibold text-cyan-300">1.25 ETH</p>
-                <p className="text-xs text-slate-400">Disponível</p>
-              </div>
-            </div>
-          ))}
-        </div>
+import { useState } from 'react';
+import { Link } from '@tanstack/react-router';
+import { Breadcrumbs, PageHeading, PriceRow, products } from '../components/marketplace-ui';
 
-        <aside className="rounded-3xl border border-slate-700 bg-slate-950/60 p-6">
-          <h2 className="text-xl font-semibold text-white">Resumo</h2>
-          <div className="mt-5 space-y-3 text-sm text-slate-300">
-            <div className="flex justify-between"><span>Subtotal</span><span>2.80 ETH</span></div>
-            <div className="flex justify-between"><span>Desconto</span><span>-0.20 ETH</span></div>
-            <div className="flex justify-between"><span>Taxa de rede</span><span>0.12 ETH</span></div>
-            <div className="mt-4 flex justify-between border-t border-slate-700 pt-4 text-base font-semibold text-white">
-              <span>Total</span>
-              <span>2.72 ETH</span>
-            </div>
-          </div>
-          <button className="mt-6 w-full rounded-full bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">
-            Ir para pagamento
-          </button>
+export function Cart() {
+  const [items, setItems] = useState(products.slice(0, 3).map((product, index) => ({ ...product, quantity: [2, 6, 9][index] })));
+  const [coupon, setCoupon] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const subtotal = items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+  const total = subtotal - discount + 0.016;
+
+  function changeQuantity(id: string, change: number) {
+    setItems((current) => current.map((item) => item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item));
+  }
+
+  return (
+    <div className="content-page cart-page">
+      <Breadcrumbs items={['Início', 'Mercado', 'Carrinho']} />
+      <div className="page-heading cart-heading"><p className="eyebrow">Sua próxima peça favorita</p><PageHeading title="Carrinho" /><span className="cart-heading__count">{items.length} obras</span></div>
+      <div className="cart-layout">
+        <section className="cart-table" aria-label="Itens do carrinho">
+          <div className="cart-table__head"><span>NFTs</span><span>Preço</span><span>Edições</span><span>Total</span><span /></div>
+          {items.map((item) => <article className="cart-item" key={item.id}>
+            <div className="cart-item__product"><img src={`https://images.unsplash.com/${item.image}?auto=format&fit=crop&w=180&q=80`} alt={`Obra ${item.name}`} /><div><strong>{item.name}</strong><span>ID do token: #{item.id.slice(-3)}</span></div></div>
+            <strong className="cart-item__price">{item.price} ETH</strong>
+            <div className="quantity-control quantity-control--small"><button type="button" onClick={() => changeQuantity(item.id, -1)} aria-label={`Diminuir ${item.name}`}>−</button><span>{item.quantity}</span><button type="button" onClick={() => changeQuantity(item.id, 1)} aria-label={`Aumentar ${item.name}`}>+</button></div>
+            <strong className="cart-item__total">{(Number(item.price) * item.quantity).toFixed(2)} ETH</strong>
+            <button type="button" className="remove-item" onClick={() => setItems((current) => current.filter((entry) => entry.id !== item.id))} aria-label={`Remover ${item.name}`}>×</button>
+          </article>)}
+          {items.length === 0 && <div className="cart-empty"><p>Seu carrinho está esperando por uma obra especial.</p><Link to="/" className="button button--dark">Explorar coleção</Link></div>}
+          <div className="cart-continue"><Link to="/">← Continuar explorando</Link><span>Pagamento seguro · Taxas transparentes</span></div>
+        </section>
+        <aside className="summary-panel">
+          <div className="summary-heading"><h2>Resumo da carteira</h2><span className="secure-mark" aria-label="Pagamento protegido">✓</span></div>
+          <label className="field-label" htmlFor="coupon">Código promocional</label>
+          <div className="coupon-row"><input id="coupon" value={coupon} onChange={(event) => setCoupon(event.target.value)} placeholder="Digite seu código" /><button type="button" onClick={() => setDiscount(coupon.trim() ? subtotal * 0.05 : 0)}>Aplicar</button></div>
+          {discount > 0 && <p className="coupon-success" role="status">Código aplicado: 5% de desconto</p>}
+          <div className="summary-lines"><PriceRow label="Subtotal" value={`${subtotal.toFixed(2)} ETH`} /><PriceRow label="Desconto" value={`− ${discount.toFixed(2)} ETH`} /><PriceRow label="Taxa de rede" value="0.016 ETH" /></div>
+          <div className="summary-total"><PriceRow label="Total estimado" value={`${total.toFixed(3)} ETH`} total /><span>O valor final é confirmado na etapa seguinte.</span></div>
+          <Link to="/checkout" className="button button--dark button--full">Conectar e finalizar <span aria-hidden="true">→</span></Link>
+          <div className="payment-methods"><span>ACEITAMOS</span><b>ETH</b><b>◈</b><b>◎</b></div>
         </aside>
       </div>
-    </section>
+    </div>
   );
 }

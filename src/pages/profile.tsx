@@ -1,35 +1,14 @@
+import { Link } from '@tanstack/react-router';
+import { Breadcrumbs, PageHeading } from '../components/marketplace-ui';
+
 export function Profile() {
   return (
-    <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
-      <span className="mb-3 inline-flex rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-fuchsia-300">
-        Placeholder
-      </span>
-      <h1 className="text-3xl font-bold text-white sm:text-4xl">Perfil</h1>
-      <div className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="rounded-3xl border border-slate-700 bg-slate-950/60 p-6 text-center">
-          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-dashed border-slate-600 bg-slate-900 text-2xl font-semibold text-slate-200">
-            AC
-          </div>
-          <p className="mt-4 text-xl font-semibold text-white">Alex Colecionador</p>
-        </div>
-        <form className="space-y-4 rounded-3xl border border-slate-700 bg-slate-950/60 p-6">
-          <div>
-            <label htmlFor="profileName" className="mb-2 block text-sm font-medium text-slate-200">Nome</label>
-            <input id="profileName" defaultValue="Alex Colecionador" className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100" />
-          </div>
-          <div>
-            <label htmlFor="profileEmail" className="mb-2 block text-sm font-medium text-slate-200">E-mail</label>
-            <input id="profileEmail" type="email" defaultValue="alex@email.com" className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100" />
-          </div>
-          <div>
-            <label htmlFor="profilePassword" className="mb-2 block text-sm font-medium text-slate-200">Nova senha</label>
-            <input id="profilePassword" type="password" placeholder="••••••••" className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-100 placeholder:text-slate-500" />
-          </div>
-          <button type="button" className="rounded-full bg-fuchsia-500 px-5 py-3 font-medium text-white transition hover:bg-fuchsia-400">
-            Salvar alterações
-          </button>
-        </form>
+    <div className="content-page account-page">
+      <Breadcrumbs items={['Início', 'Minha conta', 'Perfil do colecionador']} />
+      <div className="account-header"><div><p className="eyebrow">Sua presença na GreenMint</p><PageHeading title="Perfil do colecionador" description="Gerencie suas informações e personalize como a comunidade vê você." /></div><button type="button" className="button button--outline">Sair da conta</button></div>
+      <div className="account-layout"><aside className="account-sidebar"><div className="profile-mini"><div className="profile-avatar">AC</div><div><strong>Alex Colecionador</strong><span>Membro desde 2024</span></div></div><nav aria-label="Configurações da conta" className="account-nav"><a className="account-nav__active" href="#profile">Informações pessoais</a><Link to="/wallets">Minhas carteiras</Link><a href="#security">Segurança</a><a href="#orders">Histórico de pedidos</a></nav></aside>
+        <section className="account-content" id="profile"><div className="panel-heading"><div><h2>Informações pessoais</h2><p>Atualize os dados da sua conta.</p></div><span className="verified-label">✓ Conta verificada</span></div><div className="avatar-editor"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=80" alt="Avatar de Alex Colecionador" /><div><strong>Foto de perfil</strong><span>JPG ou PNG. Máximo de 2 MB.</span></div><label className="button button--outline upload-button">Alterar foto<input type="file" accept="image/png,image/jpeg" /></label></div><form className="profile-form"><div className="form-grid"><label className="form-field">Nome<input defaultValue="Alex" autoComplete="given-name" /></label><label className="form-field">Sobrenome<input defaultValue="Colecionador" autoComplete="family-name" /></label></div><label className="form-field">E-mail<input type="email" defaultValue="alex@email.com" autoComplete="email" /></label><label className="form-field">Nome de usuário<input defaultValue="alexcollects" /></label><label className="form-field">Bio<textarea rows={3} defaultValue="Colecionando arte com propósito. Sempre em busca de novos olhares." /></label><div className="form-actions"><button type="button" className="button button--outline">Cancelar</button><button type="submit" className="button button--dark">Salvar alterações</button></div></form><section className="password-section" id="security"><h2>Alterar senha</h2><label className="form-field">Senha atual<input type="password" autoComplete="current-password" placeholder="••••••••" /></label><div className="form-grid"><label className="form-field">Nova senha<input type="password" autoComplete="new-password" placeholder="Mínimo de 8 caracteres" /></label><label className="form-field">Confirmar nova senha<input type="password" autoComplete="new-password" placeholder="Repita a nova senha" /></label></div><button type="button" className="button button--outline">Atualizar senha</button></section></section>
       </div>
-    </section>
+    </div>
   );
 }

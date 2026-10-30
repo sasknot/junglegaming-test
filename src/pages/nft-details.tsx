@@ -1,34 +1,43 @@
-import { useParams } from '@tanstack/react-router';
+import { useState } from 'react';
+import { Link, useParams } from '@tanstack/react-router';
+import { Artwork, Breadcrumbs, PageHeading, ProductCard, products } from '../components/marketplace-ui';
 
 export function NftDetails() {
   const params = useParams({ strict: false });
+  const product = products.find((item) => item.id === params.nftId) ?? products[0];
+  const [quantity, setQuantity] = useState(1);
+  const [favorite, setFavorite] = useState(false);
+  const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details');
 
   return (
-    <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-glow sm:p-8">
-      <span className="mb-3 inline-flex rounded-full border border-purple-500/40 bg-purple-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-purple-300">
-        Placeholder
-      </span>
-      <h1 className="text-3xl font-bold text-white sm:text-4xl">Detalhes do NFT</h1>
-      <p className="mt-4 text-slate-300">NFT selecionado: {params.nftId ?? 'sem-id'}</p>
-      <div className="mt-8 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-3xl border border-slate-700 bg-gradient-to-br from-slate-800 to-slate-950 p-8">
-          <div className="aspect-[4/5] rounded-2xl border border-dashed border-slate-600 bg-slate-900/70" />
-        </div>
-        <div className="space-y-4 rounded-3xl border border-slate-700 bg-slate-950/60 p-6">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-slate-400">Coleção</p>
-            <h2 className="mt-2 text-2xl font-semibold text-white">Metal Ape #001</h2>
+    <div className="content-page detail-page">
+      <Breadcrumbs items={['Início', 'Mercado', 'Detalhes do NFT']} />
+      <section className="detail-layout">
+        <div className="detail-gallery">
+          <div className="detail-thumbnails" aria-label="Imagens da obra">
+            {[product.image, 'photo-1618005198919-d3d4b5a92ead', 'photo-1634986666676-ec8fd927c23d', 'photo-1634017839464-5c339ebe3cb4'].map((image, index) => <button type="button" className={`thumbnail${index === 0 ? ' thumbnail--active' : ''}`} key={`${image}-${index}`} aria-label={`Ver imagem ${index + 1}`}><Artwork image={image} alt="" /></button>)}
           </div>
-          <p className="text-slate-300">Descrição, galeria, preço, estoque, favoritos e ação de compra.</p>
-          <div className="flex items-center justify-between rounded-2xl border border-slate-700 bg-slate-900 p-4">
-            <span className="text-slate-400">Preço</span>
-            <span className="text-2xl font-bold text-cyan-300">2.35 ETH</span>
-          </div>
-          <button className="w-full rounded-full bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">
-            Comprar agora
-          </button>
+          <div className="detail-main-art"><Artwork image={product.image} alt={`Obra digital ${product.name}`} /><span className="art-edition">OBRA VERIFICADA · ETHEREUM</span><button type="button" className={`icon-button detail-favorite${favorite ? ' is-favorite' : ''}`} onClick={() => setFavorite((value) => !value)} aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}>{favorite ? '♥' : '♡'}</button></div>
         </div>
-      </div>
-    </section>
+        <div className="detail-info">
+          <p className="eyebrow">Kurio Apes · Coleção verificada</p>
+          <PageHeading title={product.name} />
+          <div className="detail-price-line"><strong>{product.price} ETH</strong><span>≈ ${(Number(product.price) * 3240).toLocaleString('en-US', { maximumFractionDigits: 0 })} USD</span></div>
+          <div className="rating-line"><span className="rating-stars" aria-label="5 de 5 estrelas">★★★★★</span><span>19 avaliações de colecionadores</span></div>
+          <p className="detail-description">Uma obra digital finalizada à mão da coleção Kurio Editions, verificada na Ethereum, com arte desbloqueável e acesso para colecionadores.</p>
+          <div className="detail-edition"><span className="field-label">Edição</span><div className="edition-options"><button type="button" className="edition-option">1/1</button><button type="button" className="edition-option edition-option--active">1/10</button><button type="button" className="edition-option">1/50</button><button type="button" className="edition-option">Aberta</button></div></div>
+          <div className="detail-buy-row"><div className="quantity-control"><button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Diminuir quantidade">−</button><span>{quantity}</span><button type="button" onClick={() => setQuantity((value) => Math.min(10, value + 1))} aria-label="Aumentar quantidade">+</button></div><Link to="/cart" className="button button--dark">Comprar agora</Link><button type="button" onClick={() => setFavorite((value) => !value)} className="button button--outline">{favorite ? '♥ Salvo' : '♡ Favoritar'}</button></div>
+          <div className="detail-facts"><p><span>ID do token</span><strong>#0042</strong></p><p><span>Coleção</span><strong>Kurio Apes</strong></p><p><span>Atributos</span><strong>Óculos, Esmeralda, Raro</strong></p><p><span>Criador</span><strong>{product.creator}</strong></p></div>
+          <div className="share-row"><span>Compartilhar este NFT</span><button type="button" aria-label="Compartilhar no X">𝕏</button><button type="button" aria-label="Copiar link">↗</button></div>
+        </div>
+      </section>
+
+      <section className="detail-extra">
+        <div className="detail-tabs" role="tablist"><button type="button" role="tab" aria-selected={activeTab === 'details'} onClick={() => setActiveTab('details')}>Detalhes do NFT</button><button type="button" role="tab" aria-selected={activeTab === 'reviews'} onClick={() => setActiveTab('reviews')}>Avaliações de colecionadores (19)</button></div>
+        {activeTab === 'details' ? <div className="detail-tab-content"><p>{product.name} é uma obra digital 1/50 da coleção Kurio Editions. Cada atributo fica armazenado nos metadados do token e verificado na Ethereum. A propriedade inclui a arte em alta resolução, lançamentos exclusivos para colecionadores e um registro permanente de procedência na rede.</p><div className="detail-chain"><span>Rede</span><strong>Ethereum · ERC-721</strong><span>Contrato</span><strong>0x7A42...19E8 · Verificado</strong><span>Direitos autorais</span><strong>5% nas vendas secundárias</strong></div></div> : <div className="detail-tab-content review-content"><span className="rating-stars">★★★★★</span><strong>4,9 de 5</strong><span>Baseado em 19 avaliações verificadas</span></div>}
+      </section>
+
+      <section className="related-section"><div className="section-title"><p className="eyebrow">Descubra mais</p><h2>Mais desta coleção</h2></div><div className="related-grid">{products.slice(3, 7).map((item) => <ProductCard key={item.id} product={item} compact />)}</div></section>
+    </div>
   );
 }
