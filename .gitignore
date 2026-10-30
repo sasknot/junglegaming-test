@@ -1,6 +1,6 @@
 # Git ignore
 node_modules
-dist
+.dist
 .vite
 .DS_Store
 coverage
